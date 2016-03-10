@@ -18,7 +18,6 @@ function getAllMenuItemsTable(t)
       local menu = {}
           for pos,val in pairs(t) do
               if(type(val)=="table") then
-                -- do not include help menu for now until I find best way to remove menubar items with no shortcuts in them
                   if(val['AXRole'] =="AXMenuBarItem" and type(val['AXChildren']) == "table") then
                       menu[pos] = {}
                       menu[pos]['AXTitle'] = val['AXTitle']
@@ -44,7 +43,7 @@ function getAllMenuItems(t)
     local menu = ""
         for pos,val in pairs(t) do
             if(type(val)=="table") then
-                
+                -- do not include help menu for now until I find best way to remove menubar items with no shortcuts in them
                 if(val['AXRole'] =="AXMenuBarItem" and type(val['AXChildren']) == "table") and val['AXTitle'] ~="Help" then
                     menu = menu.."<ul class='col col"..pos.."'>"
                     menu = menu.."<li class='title'><strong>"..val['AXTitle'].."</strong></li>"
