@@ -89,12 +89,21 @@ function generateHtml()
             ul, li{list-style: inside none; padding: 0 0 5px;}
             footer{
               position: fixed;
-              bottom: 0;
               left: 0;
               right: 0;
               height: 48px;
               background-color:#eee;
             }
+            header{
+              position: fixed;
+              top: 0;
+              left: 0;
+              right: 0;
+              height:48px;
+              background-color:#eee;
+              z-index:99;
+            }
+            footer{ bottom: 0; }
             header hr,
             footer hr {
               border: 0;
@@ -111,21 +120,17 @@ function generateHtml()
               font-size:12px;
               overflow:hidden;
             }
+            .content.maincontent{
+            position: relative;
+              height: 577px;
+              margin-top: 46px;
+            }
             .content > .col{
-              min-height:50px;
-              float: left;
               width: 23%;
-              padding:10px 0 0 20px;
-              border-right: 1px solid #ccc;
+              padding:10px 0 20px 20px;
             }
-            footer .content .col{
-                border:none;
-              }
-            .col:nth-child(4){
-              border:none;
-            }
-            li:after,
-            .col:nth-child(4):after{
+            
+            li:after{
               visibility: hidden;
               display: block;
               font-size: 0;
@@ -152,25 +157,25 @@ function generateHtml()
               <div class="title"><strong>]]..appTitle..[[</strong></div>
               <hr />
             </header>
-            <div class="content">]]..myMenuItems..[[</div>
+            <div class="content maincontent">]]..myMenuItems..[[</div>
 
           <footer>
             <hr />
-              <div class="content"> 
+              <div class="content" > 
                 <div class="col">
                   by <a href="https://github.com/dharmapoudel" target="_parent">dharma poudel</a>
                 </div>
               </div>
           </footer>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js"></script>
         	<script type="text/javascript">
-        		function submitCmd() {
-        		    try {
-        		        webkit.messageHandlers.passItAlong.postMessage(document.forms["inputForm"]["cmd"].value);
-        		    } catch(err) {
-        		        console.log('The controller does not exist yet');
-        		    }
-        		    return ;
-        		}
+              var elem = document.querySelector('.content');
+              var iso = new Isotope( elem, {
+                // options
+                itemSelector: '.col',
+                layoutMode: 'masonry'
+              });
+              console.log("test");
             </script>
           </body>
         </html>
