@@ -7,7 +7,7 @@ local imagePath = basePath .. 'assets/';
 
 --require("statuslets")
 require 'battery'
-require 'battigayo'
+--require 'battigayo'
 require 'cheatsheets'
 --require 'functions'
 -----------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ hs.pathwatcher.new(basePath, reloadConfig):start()
 -----------------------------------------------------------------------------------
 local appList = {
 	a = 'Activity Monitor',
-	d = 'Dictionary',
+	--d = 'Dictionary',
 	f = "Finder",
 	s = 'Sublime Text 2'
 }

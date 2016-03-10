@@ -18,6 +18,7 @@ function getAllMenuItemsTable(t)
       local menu = {}
           for pos,val in pairs(t) do
               if(type(val)=="table") then
+                -- do not include help menu for now until I find best way to remove menubar items with no shortcuts in them
                   if(val['AXRole'] =="AXMenuBarItem" and type(val['AXChildren']) == "table") then
                       menu[pos] = {}
                       menu[pos]['AXTitle'] = val['AXTitle']
@@ -44,7 +45,7 @@ function getAllMenuItems(t)
         for pos,val in pairs(t) do
             if(type(val)=="table") then
                 
-                if(val['AXRole'] =="AXMenuBarItem" and type(val['AXChildren']) == "table") then
+                if(val['AXRole'] =="AXMenuBarItem" and type(val['AXChildren']) == "table") and val['AXTitle'] ~="Help" then
                     menu = menu.."<ul class='col col"..pos.."'>"
                     menu = menu.."<li class='title'><strong>"..val['AXTitle'].."</strong></li>"
                     menu = menu.. getAllMenuItems(val['AXChildren'][1])
@@ -105,13 +106,14 @@ function generateHtml()
             .title{
                 padding: 15px;
             }
+            li.title{padding: 0  10px 15px}
             .content{
               padding: 0 0 15px;
               font-size:12px;
               overflow:hidden;
             }
             .content > .col{
-              min-height:495px;
+              min-height:50px;
               float: left;
               width: 23%;
               padding:10px 0 0 20px;
@@ -180,29 +182,21 @@ end
   
 
 
-
-local myView = "test"
+local myView = nil
 
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "C", function() 
-  if myView =="test" then
+  if not myView then
     myView = hs.webview.new({x = 100, y = 100, w = 1080, h = 600}, { developerExtrasEnabled = true })
       :windowStyle("utility")
-      :allowTextEntry(true)
       :closeOnEscape(true)
       :html(generateHtml())
       :allowGestures(true)
       :windowTitle("CheatSheets")
       :show()
-      --:asHSWindow()
-      :asHSDrawing()
-      :setAlpha(.98)
+    --myView:asHSWindow():focus()
+    --myView:asHSDrawing():setAlpha(.98):bringToFront()
   else
     myView:delete()
-    myView="test"
-  end
-end)
-
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "D", function() 
-   myView:close()
     myView=nil
+  end
 end)
