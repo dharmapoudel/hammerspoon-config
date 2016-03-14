@@ -3,15 +3,21 @@
 ------------------------------------------------------------------------
 
 local commandEnum = {
-      [0] = '⌘',
-      [1] = '⇧ ⌘',
-      [2] = '⌥ ⌘',
-      [3] = '^ ⌥ ⌘',
-      [4] = '⌃ ⌘',
-      [5] = '⇧ ⌃ ⌘',
-      [7] = '',
-      [12] ='⌃',
-      [13] ='⌃',
+        [0] = '⌘',
+        [1] = '⇧ ⌘',
+        [2] = '⌥ ⌘',
+        [3] = '⌥ ⇧ ⌘',
+        [4] = '⌃ ⌘',
+        [5] = '⇧ ⌃ ⌘',
+        [6] = '⌃ ⌥ ⌘',
+        [7] = '',
+        [8] = '⌦',
+        [9] = '',
+        [10] = '⌥',
+        [11] = '⌥ ⇧',
+        [12] = '⌃',
+        [13] = '⌃ ⇧',
+        [14] = '⌃ ⌥',
     }
 
 function getAllMenuItemsTable(t)
@@ -46,12 +52,14 @@ function getAllMenuItems(t)
                 -- do not include help menu for now until I find best way to remove menubar items with no shortcuts in them
                 if(val['AXRole'] =="AXMenuBarItem" and type(val['AXChildren']) == "table") and val['AXTitle'] ~="Help" then
                     menu = menu.."<ul class='col col"..pos.."'>"
+                    --print("---------------| "..val['AXTitle'].." |---------------")
                     menu = menu.."<li class='title'><strong>"..val['AXTitle'].."</strong></li>"
                     menu = menu.. getAllMenuItems(val['AXChildren'][1])
                     menu = menu.."</ul>"
                 elseif(val['AXRole'] =="AXMenuItem" and not val['AXChildren']) then
                     if( val['AXMenuItemCmdModifiers'] ~='0' and val['AXMenuItemCmdChar'] ~='') then
-                      menu = menu.."<li><div class='cmdModifiers'>"..commandEnum[val['AXMenuItemCmdModifiers']].." "..val['AXMenuItemCmdChar'].."</div><div class='cmdtext'>".." "..val['AXTitle'].."</div></li>"
+                        --print(val['AXMenuItemCmdModifiers'].." | "..val['AXTitle'].." | CmdChar: "..val['AXMenuItemCmdChar'])
+                        menu = menu.."<li><div class='cmdModifiers'>"..commandEnum[val['AXMenuItemCmdModifiers']].." "..val['AXMenuItemCmdChar'].."</div><div class='cmdtext'>".." "..val['AXTitle'].."</div></li>"
                     end 
                 elseif(val['AXRole'] =="AXMenuItem" and type(val['AXChildren']) == "table") then
                     menu = menu..getAllMenuItems(val['AXChildren'][1])
@@ -175,7 +183,6 @@ function generateHtml()
                 itemSelector: '.col',
                 layoutMode: 'masonry'
               });
-              console.log("test");
             </script>
           </body>
         </html>

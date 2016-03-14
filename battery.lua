@@ -3,7 +3,6 @@
 -----------------------------------------------------------------------------------
 
 local imagePath =  os.getenv("HOME") .. '/.hammerspoon/assets/';
-local showBatteryPercentage = false;
 
 local battery = {
 	rem = hs.battery.percentage(),
@@ -11,7 +10,8 @@ local battery = {
 	icon = imagePath ..'battery-charging.pdf',
 	title =  "Battery Status",
 	sound = "Sosumi",
-	min = 50
+	min = 50,
+	showPercentage = false
 }
 
 
@@ -30,7 +30,7 @@ function notifyWhenBatteryFullyCharged()
 end
 
 
--- notify when battery is less than 50%
+-- notify when battery is less than battery.min
 function notifyWhenBatteryLow()
 	local currentPercentage = hs.battery.percentage()
 	if currentPercentage <= battery.min and battery.rem ~= currentPercentage and (currentPercentage % 5 == 0 ) then
@@ -68,7 +68,7 @@ end
 
 
 function watchBattery()
-	if showBatteryPercentage then
+	if battery.showPercentage then
 		showPercentageonNavbar()
 	end
 	alertPowerSource()
